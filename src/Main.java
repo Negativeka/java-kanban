@@ -1,4 +1,6 @@
+import model.Epic;
 import model.Status;
+import model.SubTask;
 import model.Task;
 import manager.TaskManager;
 
@@ -7,22 +9,27 @@ public class Main {
 
 
         TaskManager taskManager = new TaskManager();
-        Task task = taskManager.create(new Task("Новая задача", Status.NEW, "Описание"));
-        System.out.println("Создать задачу: " + task);
+        taskManager.create(new Task(1,"Новая задача", Status.NEW, "Тест"));
+        taskManager.create(new Task(2,"Задача в процессе", Status.IN_PROGRESS, "Тестирую"));
+        taskManager.create(new Task(3,"Задача окончена", Status.DONE, "Даже что-то получилось"));
+        taskManager.getAllTasks();
+        taskManager.update(new Task(1,"Изменение задачи", Status.DONE, "Вроде получилось"));
+        taskManager.getAllTasks();
 
-        Task taskFromManager = taskManager.get(task.getId());
-        System.out.println("Показать задачу: " + taskFromManager);
+        taskManager.createEpic(new Epic(4, "Получение по идентефикатору", Status.NEW, "Начало"));
+        taskManager.updateEpic(new Epic(5, "Получение по идентефикатору", Status.DONE, "Конец"));
+        taskManager.getEpic(4);
+        taskManager.getEpic(5);
 
-        taskFromManager.setName("Новое имя");
-        taskManager.update(taskFromManager);
-        System.out.println("Обновить задачу: " + taskFromManager);
 
-        Task taskUpdated = new Task(taskFromManager.getId(), "Обновить задачу", Status.IN_PROGRESS, taskFromManager.getDescription());
-        taskManager.update(taskUpdated);
-        System.out.println("Обновление задачи: " + taskFromManager);
 
-        taskManager.delete(taskUpdated.getId());
-        System.out.println("Удаление: " + task);
+        taskManager.createSubTask(new SubTask(6, "Удаление по идентификатору ", Status.NEW, "Вжух"));
+        taskManager.getAllSubTasks();
+        taskManager.deleteSubTask(6);
+        taskManager.getAllSubTasks();
 
+       taskManager.clearTask();
+       taskManager.clearSubTask();
+       taskManager.clearEpic();
     }
 }
